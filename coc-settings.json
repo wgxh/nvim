@@ -25,5 +25,9 @@
 		"unit": "\uf475",
 		"value": "\uf89f",
 		"variable": "\ue71b"
-	}
+	},
+	"eslint.format.enable": true,
+	"eslint.autoFixOnSave": true,
+	"diagnostic.displayByAle": true,
+  "explorer.icon.enableNerdfont": true
 }
