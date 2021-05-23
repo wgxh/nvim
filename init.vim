@@ -9,7 +9,9 @@ set scrolloff=5
 set mouse=a
 set termguicolors
 set guifont="FiraCode Nerd Font Mono"
+set updatetime=1000
 set nocompatible
+autocmd VimLeave * set gcr=a:ver20
 
 " ===
 " === Key map
@@ -62,6 +64,8 @@ call plug#begin('~/.config/nvim/packs')
   " ===  Completion
   Plug 'neoclide/coc.nvim'
   Plug 'dense-analysis/ale'
+  Plug 'honza/vim-snippets'
+  Plug 'SirVer/ultisnips'
 
   " === Syntax
   Plug 'HerringtonDarkholme/yats.vim'
@@ -82,6 +86,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'tpope/vim-surround'
   Plug 'gcmt/wildfire.vim'
   Plug 'christoomey/vim-tmux-navigator'
+  Plug 'ryanoasis/vim-devicons'
 
   " === Themes
   Plug 'ajmwagar/vim-deus'
@@ -90,6 +95,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'morhetz/gruvbox'
   Plug 'connorholyday/vim-snazzy'
   Plug 'w0ng/vim-hybrid'
+  Plug 'junegunn/seoul256.vim'
 
   " === Other
   Plug 'editorconfig/editorconfig-vim'
@@ -128,6 +134,10 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 nmap <F2> <Plug>(coc-rename)
+nmap <silent> gr <Plug>(coc-references)
+imap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+
 
 " === airline
 let g:airline_powerline_fonts = 1
@@ -156,3 +166,18 @@ function! RipgrepFzf(query, fullscreen)
 endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+" ===
+" === Gruvbox
+" ===
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_undercurl = 1
+let g:gruvbox_contrast_dark = 'medium'
+
+" ===
+" === UltiSnips
+" ===
+let g:UltiSnipsExpandTrigger = '<C-y>'
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
