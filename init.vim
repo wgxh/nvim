@@ -10,7 +10,6 @@ set mouse=a
 set termguicolors
 set guifont="FiraCode Nerd Font Mono"
 set updatetime=1000
-set nocompatible
 autocmd VimLeave * set gcr=a:ver20
 
 " ===
@@ -41,10 +40,10 @@ nmap <silent> +t :tabnew<CR>
 nmap <silent> -t :tabc<CR>
 
 " === Quickfix list
-nmap <silent> ]c :cnext<CR>
-nmap <silent> [c :cprevious<CR>
-nmap <silent> +c :copen<CR>
-nmap <silent> -c :cclose<CR>
+nmap <silent> ]q :cnext<CR>
+nmap <silent> [q :cprevious<CR>
+nmap <silent> +q :copen<CR>
+nmap <silent> -q :cclose<CR>
 
 " === Explorer
 nmap <silent> ^e :CocCommand explorer<CR>
@@ -72,6 +71,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'styled-components/vim-styled-components'
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'Yggdroot/indentLine'
+  Plug 'alvan/vim-closetag'
   Plug 'maxmellon/vim-jsx-pretty'
 
   " === Tools
@@ -80,13 +80,13 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'bling/vim-bufferline'
-  Plug 'mg979/vim-xtabline'
   Plug 'godlygeek/tabular'
   Plug 'kevinhwang91/rnvimr'
   Plug 'tpope/vim-surround'
   Plug 'gcmt/wildfire.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'ryanoasis/vim-devicons'
+  Plug 'edkolev/tmuxline.vim'
 
   " === Themes
   Plug 'ajmwagar/vim-deus'
@@ -102,7 +102,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'mhinz/vim-startify'
 call plug#end()
 
-let ayucolor="mirage"
+let ayucolor="dark"
 colors gruvbox
 
 " ===
@@ -110,6 +110,8 @@ colors gruvbox
 " ===
 
 " === Coc
+syntax sync minlines=1000
+
 let g:coc_global_extensions = [
   \ 'coc-vimlsp',
   \ 'coc-pairs',
@@ -141,6 +143,7 @@ imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scr
 
 " === airline
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " === Xtabline
 let g:xtabline_settings = {}
@@ -181,3 +184,8 @@ let g:gruvbox_contrast_dark = 'medium'
 let g:UltiSnipsExpandTrigger = '<C-y>'
 let g:UltiSnipsJumpForwardTrigger="<c-k>"
 let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+
+" ===
+" === vim-closetag
+" ===
+let g:closetag_filetypes = 'html,xhtml,jsx,tsx'
