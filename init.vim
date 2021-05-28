@@ -96,6 +96,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'connorholyday/vim-snazzy'
   Plug 'w0ng/vim-hybrid'
   Plug 'junegunn/seoul256.vim'
+  Plug 'joshdick/onedark.vim'
 
   " === Other
   Plug 'editorconfig/editorconfig-vim'
@@ -142,7 +143,7 @@ imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scr
 
 
 " === airline
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
 
 " === Xtabline
