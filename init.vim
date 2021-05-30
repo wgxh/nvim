@@ -73,6 +73,9 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'Yggdroot/indentLine'
   Plug 'alvan/vim-closetag'
   Plug 'maxmellon/vim-jsx-pretty'
+  Plug 'yuezk/vim-js'
+  Plug 'othree/yajs.vim'
+  Plug 'evanleck/vim-svelte'
 
   " === Tools
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -87,6 +90,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'ryanoasis/vim-devicons'
   Plug 'edkolev/tmuxline.vim'
+  Plug 'itchyny/vim-cursorword'
 
   " === Themes
   Plug 'ajmwagar/vim-deus'
@@ -143,7 +147,7 @@ imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scr
 
 
 " === airline
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " === Xtabline
