@@ -17,5 +17,13 @@
   ],
   "importCost.bundleSizeDecoration": "both",
   "importCost.showCalculatingDecoration": true,
-  "importCost.debug": false
+  "importCost.debug": false,
+  "languageserver": {
+    "gopls":{
+      "command": "gopls",
+      "filetypes": [
+        "go"
+      ]
+    }
+  }
 }

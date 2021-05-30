@@ -67,15 +67,11 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'SirVer/ultisnips'
 
   " === Syntax
-  Plug 'HerringtonDarkholme/yats.vim'
   Plug 'styled-components/vim-styled-components'
-  Plug 'HerringtonDarkholme/yats.vim'
   Plug 'Yggdroot/indentLine'
   Plug 'alvan/vim-closetag'
-  Plug 'maxmellon/vim-jsx-pretty'
-  Plug 'yuezk/vim-js'
-  Plug 'othree/yajs.vim'
-  Plug 'evanleck/vim-svelte'
+  Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
   " === Tools
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -93,7 +89,6 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'itchyny/vim-cursorword'
 
   " === Themes
-  Plug 'ajmwagar/vim-deus'
   Plug 'ayu-theme/ayu-vim'
   Plug 'tomasiser/vim-code-dark'
   Plug 'morhetz/gruvbox'
@@ -101,6 +96,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'w0ng/vim-hybrid'
   Plug 'junegunn/seoul256.vim'
   Plug 'joshdick/onedark.vim'
+  Plug 'theniceboy/nvim-deus'
 
   " === Other
   Plug 'editorconfig/editorconfig-vim'
@@ -108,7 +104,7 @@ call plug#begin('~/.config/nvim/packs')
 call plug#end()
 
 let ayucolor="dark"
-colors gruvbox
+color gruvbox
 
 " ===
 " === Plug config
@@ -144,7 +140,6 @@ nmap <F2> <Plug>(coc-rename)
 nmap <silent> gr <Plug>(coc-references)
 imap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
 imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-
 
 " === airline
 let g:airline_powerline_fonts = 1
@@ -194,3 +189,15 @@ let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 " === vim-closetag
 " ===
 let g:closetag_filetypes = 'html,xhtml,jsx,tsx'
+
+" ===
+" === nvim-treesitter
+" ===
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+  },
+}
+EOF
