@@ -23,8 +23,6 @@ nmap <silent><LEADER>q :q<CR>
 nmap Q :x<CR>
 nmap S :w<CR>
 nmap R :so %<CR>
-nmap L $
-nmap H ^
 nmap ; :
 
 " === Buffer
@@ -56,13 +54,16 @@ nmap <silent> +fr :Rg<CR>
 " === Terminal mode map
 tmap <esc> <c-\><c-n>
 
+" === Insert mode map
+imap ,t <++>
+imap ,f <Esc>/<++><CR>:noh<CR>"_c4l
+
 " ===
 " === Plugs
 " ===
 call plug#begin('~/.config/nvim/packs')
   " ===  Completion
   Plug 'neoclide/coc.nvim'
-  Plug 'dense-analysis/ale'
   Plug 'honza/vim-snippets'
   Plug 'SirVer/ultisnips'
 
@@ -72,6 +73,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'alvan/vim-closetag'
   Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'preservim/tagbar'
 
   " === Tools
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -87,6 +89,7 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'ryanoasis/vim-devicons'
   Plug 'edkolev/tmuxline.vim'
   Plug 'itchyny/vim-cursorword'
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
   " === Themes
   Plug 'ayu-theme/ayu-vim'
@@ -96,7 +99,8 @@ call plug#begin('~/.config/nvim/packs')
   Plug 'w0ng/vim-hybrid'
   Plug 'junegunn/seoul256.vim'
   Plug 'joshdick/onedark.vim'
-  Plug 'theniceboy/nvim-deus'
+  Plug 'ajmwagar/vim-deus'
+  Plug 'rakr/vim-one'
 
   " === Other
   Plug 'editorconfig/editorconfig-vim'
@@ -201,3 +205,11 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+" ===
+" === tagbar.vim
+" ===
+nmap +tt :TagbarOpen<CR>
+nmap -tt :TagbarClose<CR>
+nmap ^tt :TagbarToggle<CR>
+
