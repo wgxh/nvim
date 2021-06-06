@@ -1,29 +1,35 @@
 {
-  "diagnostic.errorSign": "!",
-  "diagnostic.warningSign": "?",
+	"diagnostic.errorSign": "!",
+	"diagnostic.warningSign": "?",
 	"eslint.format.enable": true,
 	"eslint.autoFixOnSave": true,
 	"diagnostic.displayByAle": false,
-  "explorer.icon.enableNerdfont": true,
-  "diagnostic.virtualText": true,
-  "diagnostic.virtualTextPrefix": " ❯❯❯ ",
-  "explorer.quitOnOpen": true,
-  "codeLens.enable": true,
-  "importCost.typescriptExtensions": [
-    "\\.tsx?$"
-  ],
-  "importCost.javascriptExtensions": [
-    "\\.jsx?$"
-  ],
-  "importCost.bundleSizeDecoration": "both",
-  "importCost.showCalculatingDecoration": true,
-  "importCost.debug": false,
-  "languageserver": {
-    "gopls":{
-      "command": "gopls",
-      "filetypes": [
-        "go"
-      ]
-    }
-  }
+	"explorer.icon.enableNerdfont": true,
+	"diagnostic.virtualText": true,
+	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
+	"explorer.quitOnOpen": true,
+	"codeLens.enable": true,
+	"importCost.typescriptExtensions": [
+		"\\.ts?$",
+		"\\.tsx?$"
+	],
+	"importCost.javascriptExtensions": [
+		"\\.js?$",
+		"\\.jsx?$"
+	],
+	"importCost.bundleSizeDecoration": "both",
+	"importCost.showCalculatingDecoration": true,
+	"importCost.debug": false,
+	"languageserver": {
+		"gopls": {
+			"filetypes": ["go"],
+			"command": "gopls",
+			"initializationOptions": {
+				"gocodeCompletionEnabled": true,
+				"diagnosticsEnabled": true
+			}
+		}
+	},
+	"suggest.detailField": "preview",
+	"diagnostic.refreshOnInsertMode": true
 }
