@@ -11,6 +11,7 @@ set termguicolors
 set guifont="FiraCode Nerd Font Mono"
 set updatetime=1000
 set list lcs=tab:\|\ 
+set undofile
 autocmd VimLeave * set gcr=a:ver20
 
 " ===
@@ -110,7 +111,7 @@ call plug#begin('~/.config/nvim/packs')
 call plug#end()
 
 let ayucolor="dark"
-color deus
+color gruvbox
 
 " ===
 " === Plug config
@@ -206,6 +207,7 @@ require'nvim-treesitter.configs'.setup {
 		enable = true,							-- false will disable the whole extension
 	},
 }
+local ts_utils = require 'nvim-treesitter.ts_utils'
 EOF
 
 " ===

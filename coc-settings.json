@@ -23,11 +23,11 @@
 	"languageserver": {
 		"gopls": {
 			"filetypes": ["go"],
-			"command": "gopls",
-			"initializationOptions": {
-				"gocodeCompletionEnabled": true,
-				"diagnosticsEnabled": true
-			}
+			"command": "gopls"
+		},
+		"ccls": {
+			"filetypes": ["c", "cpp", "h", "hpp"],
+			"command": "ccls"
 		}
 	},
 	"suggest.detailField": "preview",
