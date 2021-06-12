@@ -12,7 +12,8 @@ set guifont="FiraCode Nerd Font Mono"
 set updatetime=1000
 set list lcs=tab:\|\ 
 set undofile
-autocmd VimLeave * set gcr=a:ver20
+autocmd VimLeave * set gcr=a:ver5
+autocmd InsertEnter * set gcr=i:ver5
 
 " ===
 " === Key map
@@ -21,8 +22,6 @@ autocmd VimLeave * set gcr=a:ver20
 let mapleader=' '
 nmap <silent><LEADER>w :w<CR>
 nmap <silent><LEADER>q :q<CR>
-nmap Q :x<CR>
-nmap S :w<CR>
 nmap R :so %<CR>
 
 " === Buffer
@@ -54,10 +53,6 @@ nmap <silent> +fr :Rg<CR>
 " === Terminal mode map
 tmap <esc> <c-\><c-n>
 
-" === Insert mode map
-imap ,t <++>
-imap ,f <Esc>/<++><CR>:noh<CR>"_c4l
-
 " ===
 " === Plugs
 " ===
@@ -73,7 +68,10 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'alvan/vim-closetag'
 	Plug 'fatih/vim-go' , { 'for': ['go', 'vim-plug'], 'tag': '*' }
 	Plug 'nvim-treesitter/nvim-treesitter'
+	Plug 'AndrewRadev/switch.vim'
 	Plug 'preservim/tagbar'
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'tpope/vim-surround'
 
 	" === Tools
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -83,7 +81,6 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'bling/vim-bufferline'
 	Plug 'godlygeek/tabular'
 	Plug 'kevinhwang91/rnvimr'
-	Plug 'tpope/vim-surround'
 	Plug 'gcmt/wildfire.vim'
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'ryanoasis/vim-devicons'
@@ -91,6 +88,7 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 	Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 	Plug 'justinmk/vim-sneak'
+	Plug 'mhinz/vim-startify'
 
 	" === Themes
 	Plug 'ayu-theme/ayu-vim'
@@ -103,10 +101,7 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'ajmwagar/vim-deus'
 	Plug 'rakr/vim-one'
 	Plug 'bluz71/vim-moonfly-colors'
-
-	" === Other
-	Plug 'editorconfig/editorconfig-vim'
-	Plug 'mhinz/vim-startify'
+	Plug 'glepnir/oceanic-material'
 call plug#end()
 
 let ayucolor="dark"
