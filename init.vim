@@ -72,6 +72,7 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'preservim/tagbar'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'tpope/vim-surround'
+	Plug 'dense-analysis/ale'
 
 	" === Tools
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -105,7 +106,7 @@ call plug#begin('~/.config/nvim/packs')
 call plug#end()
 
 let ayucolor="dark"
-color gruvbox
+color deus
 
 " ===
 " === Plug config

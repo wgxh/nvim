@@ -1,9 +1,10 @@
 {
+	"coc.preferences.useQuickfixForLocations": true,
 	"diagnostic.errorSign": "!",
 	"diagnostic.warningSign": "?",
 	"eslint.format.enable": true,
 	"eslint.autoFixOnSave": true,
-	"diagnostic.displayByAle": false,
+	"diagnostic.displayByAle": true,
 	"explorer.icon.enableNerdfont": true,
 	"diagnostic.virtualText": true,
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
