@@ -2,12 +2,8 @@
 	"coc.preferences.useQuickfixForLocations": true,
 	"diagnostic.errorSign": "!",
 	"diagnostic.warningSign": "?",
-	"eslint.format.enable": true,
-	"eslint.autoFixOnSave": true,
-	"diagnostic.displayByAle": true,
-	"explorer.icon.enableNerdfont": true,
 	"diagnostic.virtualText": true,
-	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
+	"diagnostic.virtualTextPrefix": ">>> ",
 	"explorer.quitOnOpen": true,
 	"codeLens.enable": true,
 	"importCost.typescriptExtensions": [

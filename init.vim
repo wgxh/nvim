@@ -3,7 +3,6 @@
 " ===
 syntax on
 set nu
-set rnu
 set cursorline
 set scrolloff=5
 set mouse=a
@@ -54,6 +53,16 @@ nmap <silent> +fr :Rg<CR>
 tmap <esc> <c-\><c-n>
 
 " ===
+" === Plugins before config.
+" ===
+
+" === Gruvbox
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_undercurl = 1
+let g:gruvbox_contrast_dark = 'soft'
+
+" ===
 " === Plugs
 " ===
 call plug#begin('~/.config/nvim/packs')
@@ -71,25 +80,25 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'AndrewRadev/switch.vim'
 	Plug 'preservim/tagbar'
 	Plug 'editorconfig/editorconfig-vim'
+	Plug 'neomake/neomake'
 	Plug 'tpope/vim-surround'
-	Plug 'dense-analysis/ale'
 
 	" === Tools
+	Plug 'itchyny/lightline.vim'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
 	Plug 'bling/vim-bufferline'
 	Plug 'godlygeek/tabular'
-	Plug 'kevinhwang91/rnvimr'
 	Plug 'gcmt/wildfire.vim'
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'ryanoasis/vim-devicons'
-	Plug 'itchyny/vim-cursorword'
 	Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 	Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 	Plug 'justinmk/vim-sneak'
 	Plug 'mhinz/vim-startify'
+	Plug 'tpope/vim-dispatch'
+	Plug 'kien/ctrlp.vim'
+	Plug 'jiangmiao/auto-pairs'
 
 	" === Themes
 	Plug 'ayu-theme/ayu-vim'
@@ -106,10 +115,10 @@ call plug#begin('~/.config/nvim/packs')
 call plug#end()
 
 let ayucolor="dark"
-color deus
+color gruvbox
 
 " ===
-" === Plug config
+" === Plug after config
 " ===
 
 " === Coc
@@ -117,10 +126,9 @@ syntax sync minlines=1000
 
 let g:coc_global_extensions = [
 	\ 'coc-vimlsp',
-	\ 'coc-pairs',
 	\ 'coc-tsserver',
 	\ 'coc-highlight',
-	\ 'coc-eslint']
+	\]
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -142,10 +150,6 @@ nmap <F2> <Plug>(coc-rename)
 nmap <silent> gr <Plug>(coc-references)
 imap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
 imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-
-" === airline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
 
 " === Xtabline
 let g:xtabline_settings = {}
@@ -175,10 +179,6 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " ===
 " === Gruvbox
 " ===
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-let g:gruvbox_undercurl = 1
-let g:gruvbox_contrast_dark = 'medium'
 
 " ===
 " === UltiSnips
@@ -285,3 +285,23 @@ hi NonText ctermfg=gray guifg=#504945
 " ===
 let g:instant_markdown_mathjax = 1
 let g:instant_markdown_autostart = 1
+
+" ===
+" === neomake
+" ===
+call neomake#configure#automake('nw', 750)
+
+" ===
+" === lightline.vim
+" ===
+let g:lightline = {
+	\ 'colorscheme': 'gruvbox',
+	\ 'mode_map': {
+		\ 'n': 'N',
+		\ 'i': 'I',
+		\ 'v': 'V',
+		\ 'V': 'VL',
+		\ '\<C-v>': 'VB',
+		\ 'c': 'C',
+		\ }
+	\ }
