@@ -113,6 +113,7 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'tpope/vim-commentary'
 	Plug 'mbbill/undotree'
+	Plug 'voldikss/vim-floaterm'
 
 	" === Themes
 	Plug 'ayu-theme/ayu-vim'
@@ -333,6 +334,7 @@ nmap <C-f> :UndotreeOpen<CR>
 " === commentary.vim
 " ===
 nmap <C-c> gcc
+vmap <C-c> gc
 imap <C-c> <Esc>gccA
 
 " ===
@@ -341,3 +343,10 @@ imap <C-c> <Esc>gccA
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+" ===
+" === voldikss/vim-floaterm
+" ===
+nmap <leader>f :FloatermNew
+nmap <leader>fgr :FloatermNew go run .<CR>
+nmap <leader>flg :FloatermNew lazygit<CR>
