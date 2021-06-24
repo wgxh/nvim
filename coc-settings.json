@@ -1,10 +1,12 @@
 {
+	"diagnostic.displayByAle": true,
 	"coc.preferences.useQuickfixForLocations": true,
 	"diagnostic.errorSign": "!",
 	"diagnostic.warningSign": "?",
 	"diagnostic.virtualText": true,
 	"diagnostic.virtualTextPrefix": ">>> ",
 	"explorer.quitOnOpen": true,
+	"explorer.icon.enableNerdfont": true,
 	"codeLens.enable": true,
 	"importCost.typescriptExtensions": [
 		"\\.ts?$",

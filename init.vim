@@ -11,6 +11,8 @@ set guifont="FiraCode Nerd Font Mono"
 set updatetime=1000
 set list lcs=tab:\|\ 
 set undofile
+set smartindent
+set showtabline=2
 autocmd VimLeave * set gcr=a:ver5
 autocmd InsertEnter * set gcr=i:ver5
 
@@ -22,6 +24,11 @@ let mapleader=' '
 nmap <silent><LEADER>w :w<CR>
 nmap <silent><LEADER>q :q<CR>
 nmap R :so %<CR>
+
+" === Move
+nmap <expr>= col(".")==1?"$":"0"
+nmap J 5j
+nmap K 5k
 
 " === Buffer
 nmap <silent> ]b :bn<CR>
@@ -48,6 +55,7 @@ nmap <silent> ^e :CocCommand explorer<CR>
 nmap <silent> +ff :Files<CR>
 nmap <silent> +fg :GFiles<CR>
 nmap <silent> +fr :Rg<CR>
+nmap <silent> <c-p> :Files<CR>
 
 " === Terminal mode map
 tmap <esc> <c-\><c-n>
@@ -67,7 +75,11 @@ let g:gruvbox_contrast_dark = 'soft'
 " ===
 call plug#begin('~/.config/nvim/packs')
 	" ===  Completion
-	Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+	Plug 'prabirshrestha/vim-lsp'
+	Plug 'mattn/vim-lsp-settings'
+	Plug 'prabirshrestha/asyncomplete.vim'
+	Plug 'prabirshrestha/asyncomplete-lsp.vim'
 	Plug 'honza/vim-snippets'
 	Plug 'SirVer/ultisnips'
 
@@ -80,11 +92,12 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'AndrewRadev/switch.vim'
 	Plug 'preservim/tagbar'
 	Plug 'editorconfig/editorconfig-vim'
-	Plug 'neomake/neomake'
 	Plug 'tpope/vim-surround'
+	Plug 'dense-analysis/ale'
 
 	" === Tools
 	Plug 'itchyny/lightline.vim'
+	Plug 'mengelbrecht/lightline-bufferline'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'bling/vim-bufferline'
@@ -97,8 +110,9 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'justinmk/vim-sneak'
 	Plug 'mhinz/vim-startify'
 	Plug 'tpope/vim-dispatch'
-	Plug 'kien/ctrlp.vim'
 	Plug 'jiangmiao/auto-pairs'
+	Plug 'tpope/vim-commentary'
+	Plug 'mbbill/undotree'
 
 	" === Themes
 	Plug 'ayu-theme/ayu-vim'
@@ -114,8 +128,7 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'glepnir/oceanic-material'
 call plug#end()
 
-let ayucolor="dark"
-color gruvbox
+color deus
 
 " ===
 " === Plug after config
@@ -124,32 +137,32 @@ color gruvbox
 " === Coc
 syntax sync minlines=1000
 
-let g:coc_global_extensions = [
-	\ 'coc-vimlsp',
-	\ 'coc-tsserver',
-	\ 'coc-highlight',
-	\]
+" let g:coc_global_extensions = [
+" 	\ 'coc-vimlsp',
+" 	\ 'coc-tsserver',
+" 	\ 'coc-highlight',
+" 	\]
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-			\ pumvisible() ? "\<C-n>" :
-			\ <SID>check_back_space() ? "\<TAB>" :
-			\ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" " Use tab for trigger completion with characters ahead and navigate.
+" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" " other plugin before putting this into your config.
+" inoremap <silent><expr> <TAB>
+" 			\ pumvisible() ? "\<C-n>" :
+" 			\ <SID>check_back_space() ? "\<TAB>" :
+" 			\ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]	=~# '\s'
-endfunction
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-															\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" function! s:check_back_space() abort
+" 	let col = col('.') - 1
+" 	return !col || getline('.')[col - 1]	=~# '\s'
+" endfunction
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+" 															\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-nmap <F2> <Plug>(coc-rename)
-nmap <silent> gr <Plug>(coc-references)
-imap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+" nmap <F2> <Plug>(coc-rename)
+" nmap <silent> gr <Plug>(coc-references)
+" imap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+" imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 
 " === Xtabline
 let g:xtabline_settings = {}
@@ -177,10 +190,6 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " ===
-" === Gruvbox
-" ===
-
-" ===
 " === UltiSnips
 " ===
 let g:UltiSnipsExpandTrigger = '<C-y>'
@@ -197,73 +206,71 @@ let g:closetag_filetypes = 'html,xhtml,jsx,tsx'
 " ===
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-    highlight = {
-      enable = true,                    -- false will disable the whole extension
-      disable = { "c", "rust" },        -- list of language that will be disabled
-      custom_captures = {               -- mapping of user defined captures to highlight groups
-        -- ["foo.bar"] = "Identifier"   -- highlight own capture @foo.bar with highlight group "Identifier", see :h nvim-treesitter-query-extensions
-      },
-    },
-    incremental_selection = {
-      enable = true,
-      disable = { "cpp", "lua" },
-      keymaps = {                       -- mappings for incremental selection (visual mappings)
-        init_selection = "gnn",         -- maps in normal mode to init the node/scope selection
-        node_incremental = "grn",       -- increment to the upper named parent
-        scope_incremental = "grc",      -- increment to the upper scope (as defined in locals.scm)
-        node_decremental = "grm",       -- decrement to the previous node
-      }
-    },
-    refactor = {
-      highlight_definitions = {
-        enable = true
-      },
-      highlight_current_scope = {
-        enable = true
-      },
-      smart_rename = {
-        enable = true,
-        keymaps = {
-          smart_rename = "grr"          -- mapping to rename reference under cursor
-        }
-      },
-      navigation = {
-        enable = true,
-        keymaps = {
-          goto_definition = "gnd",      -- mapping to go to definition of symbol under cursor
-          list_definitions = "gnD"      -- mapping to list all definitions in current file
-        }
-      }
-    },
-    textobjects = { -- syntax-aware textobjects
-    enable = true,
-    disable = {},
-    keymaps = {
-        ["iL"] = { -- you can define your own textobjects directly here
-          python = "(function_definition) @function",
-          cpp = "(function_definition) @function",
-          c = "(function_definition) @function",
-          java = "(method_declaration) @function"
-        },
-        -- or you use the queries from supported languages with textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["aC"] = "@class.outer",
-        ["iC"] = "@class.inner",
-        ["ac"] = "@conditional.outer",
-        ["ic"] = "@conditional.inner",
-        ["ae"] = "@block.outer",
-        ["ie"] = "@block.inner",
-        ["al"] = "@loop.outer",
-        ["il"] = "@loop.inner",
-        ["is"] = "@statement.inner",
-        ["as"] = "@statement.outer",
-        ["ad"] = "@comment.outer",
-        ["am"] = "@call.outer",
-        ["im"] = "@call.inner"
-      }
-    },
-    ensure_installed = "all" -- one of "all", "language", or a list of languages
+	highlight = {
+		enable = true,
+		custom_captures = {
+		},
+	},
+	incremental_selection = {
+		enable = true,
+		disable = { "cpp", "lua" },
+		keymaps = {
+			init_selection = "gnn",
+			node_incremental = "grn",
+			scope_incremental = "grc",
+			node_decremental = "grm",
+		}
+	},
+	refactor = {
+		highlight_definitions = {
+			enable = true
+		},
+		highlight_current_scope = {
+			enable = true
+		},
+		smart_rename = {
+			enable = true,
+			keymaps = {
+				smart_rename = "grr"					-- mapping to rename reference under cursor
+			}
+		},
+		navigation = {
+			enable = true,
+			keymaps = {
+				goto_definition = "gnd",			-- mapping to go to definition of symbol under cursor
+				list_definitions = "gnD"			-- mapping to list all definitions in current file
+			}
+		}
+	},
+	textobjects = { -- syntax-aware textobjects
+	enable = true,
+	disable = {},
+	keymaps = {
+			["iL"] = { -- you can define your own textobjects directly here
+				python = "(function_definition) @function",
+				cpp = "(function_definition) @function",
+				c = "(function_definition) @function",
+				java = "(method_declaration) @function"
+			},
+			-- or you use the queries from supported languages with textobjects.scm
+			["af"] = "@function.outer",
+			["if"] = "@function.inner",
+			["aC"] = "@class.outer",
+			["iC"] = "@class.inner",
+			["ac"] = "@conditional.outer",
+			["ic"] = "@conditional.inner",
+			["ae"] = "@block.outer",
+			["ie"] = "@block.inner",
+			["al"] = "@loop.outer",
+			["il"] = "@loop.inner",
+			["is"] = "@statement.inner",
+			["as"] = "@statement.outer",
+			["ad"] = "@comment.outer",
+			["am"] = "@call.outer",
+			["im"] = "@call.inner"
+		}
+	},
+	ensure_installed = { 'c', 'html', 'typescript', 'javascript', 'css', 'cpp', 'go' },
 }
 EOF
 
@@ -287,15 +294,9 @@ let g:instant_markdown_mathjax = 1
 let g:instant_markdown_autostart = 1
 
 " ===
-" === neomake
-" ===
-call neomake#configure#automake('nw', 750)
-
-" ===
 " === lightline.vim
 " ===
 let g:lightline = {
-	\ 'colorscheme': 'gruvbox',
 	\ 'mode_map': {
 		\ 'n': 'N',
 		\ 'i': 'I',
@@ -303,5 +304,40 @@ let g:lightline = {
 		\ 'V': 'VL',
 		\ '\<C-v>': 'VB',
 		\ 'c': 'C',
-		\ }
-	\ }
+		\ },
+	\ 'colorscheme': 'deus',
+	\'active': {
+	\'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ]
+	\},
+	\'tabline': {
+	\'left': [ ['buffers'] ],
+	\'right': [ ['close'] ]
+	\},
+	\'component_expand': {
+	\'buffers': 'lightline#bufferline#buffers'
+	\},
+	\'component_type': {
+	\'buffers': 'tabsel'
+	\}
+\ }
+let g:lightline#bufferline#enable_devicons = 1
+
+" ===
+" === undotree.vim
+" ===
+nmap <LEADER>u :UndotreeToggle<CR>
+nmap <C-f> :UndotreeFocus<CR>
+nmap <C-f> :UndotreeOpen<CR>
+
+" ===
+" === commentary.vim
+" ===
+nmap <C-c> gcc
+imap <C-c> <Esc>gccA
+
+" ===
+" === asyncomplete.vim
+" ===
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
