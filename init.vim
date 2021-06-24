@@ -75,11 +75,11 @@ let g:gruvbox_contrast_dark = 'soft'
 " ===
 call plug#begin('~/.config/nvim/packs')
 	" ===  Completion
-	" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 	Plug 'prabirshrestha/vim-lsp'
 	Plug 'mattn/vim-lsp-settings'
 	Plug 'prabirshrestha/asyncomplete.vim'
 	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	Plug 'rhysd/vim-lsp-ale'
 	Plug 'honza/vim-snippets'
 	Plug 'SirVer/ultisnips'
 
