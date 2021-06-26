@@ -125,6 +125,8 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'kristijanhusak/defx-icons'
 	Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 	Plug 'liuchengxu/vim-which-key'
+	Plug 'mhinz/vim-signify'
+	Plug 'tpope/vim-fugitive'
 
 	" === Themes
 	Plug 'ayu-theme/ayu-vim'
