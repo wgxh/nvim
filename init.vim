@@ -2,6 +2,7 @@
 " === Basic config
 " ===
 syntax on
+syntax sync minlines=1000
 set nu
 set cursorline
 set scrolloff=5
@@ -10,9 +11,12 @@ set termguicolors
 set guifont="FiraCode Nerd Font Mono"
 set updatetime=1000
 set list lcs=tab:\|\ 
+set rnu
 set undofile
+set noautochdir
 set smartindent
 set showtabline=2
+set completeopt=menuone,noinsert,noselect,preview
 autocmd VimLeave * set gcr=a:ver5
 autocmd InsertEnter * set gcr=i:ver5
 
@@ -48,14 +52,10 @@ nmap <silent> [q :cprevious<CR>
 nmap <silent> +q :copen<CR>
 nmap <silent> -q :cclose<CR>
 
-" === Explorer
-nmap <silent> ^e :CocCommand explorer<CR>
-
 " === fzf
 nmap <silent> +ff :Files<CR>
 nmap <silent> +fg :GFiles<CR>
 nmap <silent> +fr :Rg<CR>
-nmap <silent> <c-p> :Files<CR>
 
 " === Terminal mode map
 tmap <esc> <c-\><c-n>
@@ -66,7 +66,6 @@ tmap <esc> <c-\><c-n>
 
 " === Gruvbox
 let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_contrast_dark = 'soft'
 
@@ -77,8 +76,15 @@ call plug#begin('~/.config/nvim/packs')
 	" ===  Completion
 	Plug 'prabirshrestha/vim-lsp'
 	Plug 'mattn/vim-lsp-settings'
+	Plug 'Shougo/neco-vim'
 	Plug 'prabirshrestha/asyncomplete.vim'
 	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	Plug 'prabirshrestha/asyncomplete-file.vim'
+	Plug 'prabirshrestha/asyncomplete-necovim.vim'
+	Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+	Plug 'prabirshrestha/asyncomplete.vim'
+	Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+	Plug 'kitagry/asyncomplete-tabnine.vim'
 	Plug 'rhysd/vim-lsp-ale'
 	Plug 'honza/vim-snippets'
 	Plug 'SirVer/ultisnips'
@@ -94,6 +100,7 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'tpope/vim-surround'
 	Plug 'dense-analysis/ale'
+	Plug 'numirias/semshi'
 
 	" === Tools
 	Plug 'itchyny/lightline.vim'
@@ -114,6 +121,10 @@ call plug#begin('~/.config/nvim/packs')
 	Plug 'tpope/vim-commentary'
 	Plug 'mbbill/undotree'
 	Plug 'voldikss/vim-floaterm'
+	Plug 'Shougo/defx.nvim'
+	Plug 'kristijanhusak/defx-icons'
+	Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+	Plug 'liuchengxu/vim-which-key'
 
 	" === Themes
 	Plug 'ayu-theme/ayu-vim'
@@ -134,36 +145,6 @@ color deus
 " ===
 " === Plug after config
 " ===
-
-" === Coc
-syntax sync minlines=1000
-
-" let g:coc_global_extensions = [
-" 	\ 'coc-vimlsp',
-" 	\ 'coc-tsserver',
-" 	\ 'coc-highlight',
-" 	\]
-
-" " Use tab for trigger completion with characters ahead and navigate.
-" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-" 			\ pumvisible() ? "\<C-n>" :
-" 			\ <SID>check_back_space() ? "\<TAB>" :
-" 			\ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" function! s:check_back_space() abort
-" 	let col = col('.') - 1
-" 	return !col || getline('.')[col - 1]	=~# '\s'
-" endfunction
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-" 															\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" nmap <F2> <Plug>(coc-rename)
-" nmap <silent> gr <Plug>(coc-references)
-" imap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-" imap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 
 " === Xtabline
 let g:xtabline_settings = {}
@@ -340,13 +321,88 @@ imap <C-c> <Esc>gccA
 " ===
 " === asyncomplete.vim
 " ===
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <Tab>		pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+" === asyncomplete-files.vim
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+	\ 'name': 'file',
+	\ 'allowlist': ['*'],
+	\ 'priority': 10,
+	\ 'completor': function('asyncomplete#sources#file#completor')
+	\ }))
+" === asyncomplete-necovim.vim
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+	\ 'name': 'necovim',
+	\ 'allowlist': ['vim'],
+	\ 'completor': function('asyncomplete#sources#necovim#completor'),
+	\ }))
+" === asyncomplete-ultisnips.vim
+call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+	\ 'name': 'ultisnips',
+	\ 'allowlist': ['*'],
+	\ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+	\ }))
+
 
 " ===
 " === voldikss/vim-floaterm
 " ===
-nmap <leader>f :FloatermNew
-nmap <leader>fgr :FloatermNew go run .<CR>
-nmap <leader>flg :FloatermNew lazygit<CR>
+nmap <leader>f; :FloatermNew<CR>
+nmap <leader>fg :FloatermNew lazygit<CR>
+let g:floaterm_keymap_toggle = '<C-^>'
+let g:floaterm_keymap_next = '<C-J>'
+let g:floaterm_keymap_prev = '<C-K>'
+let g:floaterm_keymap_new = '<C-N>'
+let g:floaterm_autoclose = 1
+
+" ===
+" === defx.nvim
+" ===
+nmap <LEADER>e :Defx -columns=indent:icons:filename:type<CR>
+call defx#custom#option('_', {
+	\ 'winwidth': 30,
+	\ 'split': 'vertical',
+	\ 'direction': 'topleft',
+	\ 'show_ignored_files': 0,
+	\ 'buffer_name': '',
+	\ 'toggle': 1,
+	\ 'resume': 1
+	\ })
+autocmd FileType defx call s:defx_mappings()
+
+function! s:defx_mappings() abort
+	nmap <silent><buffer><expr> l <SID>defx_toggle_tree()
+	nmap <silent><buffer><expr> h defx#do_action('open_tree')
+	nmap <silent><buffer><expr> zh defx#do_action('toggle_ignored_files')
+	nmap <silent><buffer><expr> q defx#do_action('close_tree')
+	nmap <silent><buffer><expr> a defx#do_action('new_file')
+	nmap <silent><buffer><expr> A defx#do_action('new_directory')
+	nmap <silent><buffer><expr> D defx#do_action('remove')
+endfunction
+
+function! s:defx_toggle_tree() abort
+	if defx#is_directory()
+		return defx#do_action('open_tree')
+	endif
+	return defx#do_action('multi', ['drop'])
+endfunction
+
+" ===
+" === Leaderf
+" ===
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "", 'right': "", 'font': "FiraCode Nerd Font" }
+let g:Lf_ShortcutF = "<C-p>"
+nmap <silent> <leader>lb :LeaderfBuffer<CR>
+nmap <silent> <leader>lf :LeaderfFile<CR>
+
+" ===
+" === vim-which-key
+" ===
+set timeoutlen=1
+nmap <silent> <leader> :WhichKey '<Space>'<CR>
+nmap <silent> + :WhichKey '+'<CR>
+nmap <silent> - :WhichKey '-'<CR>
+
